@@ -1,7 +1,9 @@
 import os 
+import face_recognition
 
 IMAGES_DIR = os.path.join(os.getcwd(), 'image_reconnaissable')
 
+# Get all images in a directory
 def get_images(path):
     images = []
     for root, dirs, files in os.walk(path):
@@ -10,3 +12,4 @@ def get_images(path):
     return images
 
 print(get_images(IMAGES_DIR))
+
