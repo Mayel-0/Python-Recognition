@@ -21,7 +21,7 @@ def draw_rectangle(image, output, coordinates):
     image =  cv2.imread(image)
     x, y, w, h = coordinates
     cv2.rectangle(image, (x, y), (w, h), (0, 0, 255), 10)
-    cv2.imwrite(output, image)
+    cv2.imwrite(os.path.join(os.getcwd(), "output", output) ,image)
 
 
 print(get_face("test.png"))
