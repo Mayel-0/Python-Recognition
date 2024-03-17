@@ -1,5 +1,6 @@
 import os 
 import face_recognition
+import cv2
 
 IMAGES_DIR = os.path.join(os.getcwd(), 'image_reconnaissable')
 
@@ -16,5 +17,14 @@ def get_face(image):
     face_locations = face_recognition.face_locations(image)
     return face_locations
 
+def draw_rectangle(image, output, coordinates):
+    image =  cv2.imread(image)
+    x, y, w, h = coordinates
+    cv2.rectangle(image, (x, y), (w, h), (0, 0, 255), 10)
+    cv2.imwrite(output, image)
+
+
 print(get_face("test.png"))
+
+draw_rectangle("test.png","v.jpg", get_face("test.png")[0])
 
