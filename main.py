@@ -11,5 +11,10 @@ def get_images(path):
             images.append(os.path.join(root, file))
     return images
 
-print(get_images(IMAGES_DIR))
+def get_face(image):
+    image = face_recognition.load_image_file(image)
+    face_locations = face_recognition.face_locations(image)
+    return face_locations
+
+print(get_face("test.png"))
 
