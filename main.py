@@ -48,7 +48,7 @@ face_names = []
 name_file = input("tapez le nom de votre image a traiter !")
 name_file_test = name_file + "Vtest" + ".jpg"
 name_file_img = name_file
-name_file = "image_test/" + name_file + ".jpg"
+name_file = os.path.join(os.getcwd(), "image_test", f"{name_file}.jpg")
 
 unknown_image = face_recognition.load_image_file(name_file)
 unknown_face_encoding = face_recognition.face_encodings(unknown_image)[0]

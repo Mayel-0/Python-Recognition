@@ -3,7 +3,7 @@ import face_recognition
 import cv2
 
 name_file = input("tapez le nom de votre image a traiter !")
-name_file = "image_test/" + name_file + ".jpg"
+name_file = name_file + ".png"
 
 def get_images(path):
     images = []
@@ -25,6 +25,6 @@ def draw_rectangle(image, output, coordinates):
 
 print(get_face(name_file))
 
-draw_rectangle(name_file, get_face(name_file))
+#draw_rectangle(name_file)
 
 print("traitement termine avec succés !")
