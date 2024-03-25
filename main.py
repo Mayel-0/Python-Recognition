@@ -4,41 +4,40 @@ import cv2
 import numpy as np
 
 
-mike_tyson_img = face_recognition.load_image_file("image_test/mike tyson.jpg")
-mike_tyson_face_encoding = face_recognition.face_encodings(mike_tyson_img)[0]
+mael_llado_img = face_recognition.load_image_file("now_people_face/mael.jpeg")
+mael_llado_face_encoding = face_recognition.face_encodings(mael_llado_img)[0]
+#(869, 1380, 2019, 230)
 
-brad_pitt_img = face_recognition.load_image_file("image_test/brad pitt.jpg")
-brad_pitt_face_encoding = face_recognition.face_encodings(brad_pitt_img)[0]
+sawyer_soule_img = face_recognition.load_image_file("now_people_face/sawyer.jpeg")
+sawyer_soule_face_encoding = face_recognition.face_encodings(sawyer_soule_img)[0]
+#(724, 1149, 1682, 191)
 
-lewis_hamilton_img = face_recognition.load_image_file("image_test/lewis hamilton.jpg")
-lewis_hamilton_face_encoding = face_recognition.face_encodings(lewis_hamilton_img)[0]
+sulyvan_rouzeau_img = face_recognition.load_image_file("now_people_face/sulyvan.jpeg")
+sulyvan_rouzeau_face_encoding = face_recognition.face_encodings(sulyvan_rouzeau_img)[0]
+#(583, 1503, 1963, 123)
 
-squeezie_img = face_recognition.load_image_file("image_test/squeezie.jpg")
-squeezie_face_encoding = face_recognition.face_encodings(squeezie_img)[0]
+azdine_bachiri_img = face_recognition.load_image_file("now_people_face/azdine bachiri.jpeg")
+azdine_bachiri_face_encoding = face_recognition.face_encodings(azdine_bachiri_img)[0]
+#(997, 1508, 2147, 357)
 
-baki_img = face_recognition.load_image_file("image_test/baki.jpg")
-baki_face_encoding = face_recognition.face_encodings(baki_img)[0]
-
-adriana_lima_img = face_recognition.load_image_file("image_test/adriana lima.jpg")
-adriana_lima_face_encoding = face_recognition.face_encodings(adriana_lima_img)[0]
+mathis_dumas_img = face_recognition.load_image_file("now_people_face/mathis dumas.jpeg")
+mathis_dumas_face_encoding = face_recognition.face_encodings(mathis_dumas_img)[0]
+#(613, 1380, 1764, 230)
 
 known_face_encodings = [
-    mike_tyson_face_encoding,
-    brad_pitt_face_encoding,
-    lewis_hamilton_face_encoding,
-    squeezie_face_encoding,
-    baki_face_encoding,
-    adriana_lima_face_encoding
-    
+    mael_llado_face_encoding,
+    sawyer_soule_face_encoding,
+    sulyvan_rouzeau_face_encoding,
+    azdine_bachiri_face_encoding,
+    mathis_dumas_face_encoding, 
 ]
 
 known_face_names = [
-    "Mike Tyson",
-    "Brad Pitt",
-    "Lewis Hamilton",
-    "Squeezie",
-    "Baki",
-    "Adriana Lima"
+    "Mael llado",
+    "Sawyer soule",
+    "Sulyvan rouzeau",
+    "Azdine bachiri",
+    "mathis dumas"
 ]
 
 face_locations = []
@@ -46,9 +45,9 @@ face_encodings = []
 face_names = []
 
 name_file = input("tapez le nom de votre image a traiter !")
-name_file_test = name_file + "Vtest" + ".jpg"
+name_file_test = name_file + "Vtest" + ".jpeg"
 name_file_img = name_file
-name_file = os.path.join(os.getcwd(), "image_test", f"{name_file}.jpg")
+name_file = os.path.join(os.getcwd(), "now_people_face", f"{name_file}.jpeg")
 
 unknown_image = face_recognition.load_image_file(name_file)
 unknown_face_encoding = face_recognition.face_encodings(unknown_image)[0]
