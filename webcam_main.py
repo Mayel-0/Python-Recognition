@@ -27,6 +27,7 @@ known_face_encodings = [
     mael_llado_face_encoding,
     sulyvan_rouzeau_face_encoding
 ]
+
 known_face_names = [
     "Mael llado",
     "sulyvan rouzeau"

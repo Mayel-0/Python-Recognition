@@ -22,8 +22,8 @@ fabio_barbot_face_encoding = face_recognition.face_encodings(fabio_barbot_img)[0
 #alexis_benoit_img = face_recognition.load_image_file("now_people_face/alexis.jpeg")
 #alexis_benoit_face_encoding = face_recognition.face_encodings(alexis_benoit_img)[0]
 
-#eugene_blin_img = face_recognition.load_image_file("now_people_face/eugene.jpeg")
-#eugene_blin_face_encoding = face_recognition.face_encodings(eugene_blin_img)[0]
+eugene_blin_img = face_recognition.load_image_file("now_people_face/eugene.jpeg")
+eugene_blin_face_encoding = face_recognition.face_encodings(eugene_blin_img)[0]
 
 noa_caubet_img = face_recognition.load_image_file("now_people_face/noa.jpeg")
 noa_caubet_face_encoding = face_recognition.face_encodings(noa_caubet_img)[0]
@@ -85,7 +85,7 @@ known_face_encodings = [
     azdine_bachiri_face_encoding,
     fabio_barbot_face_encoding,
     #alexis_benoit_face_encoding,
-    #eugene_blin_face_encoding,
+    eugene_blin_face_encoding,
     noa_caubet_face_encoding,
     gabriel_chinarro_face_encoding,
     #nathan_corre_face_encoding,
@@ -112,7 +112,7 @@ known_face_names = [
     "Azdine Bachiri",
     "Fabio Barbot-krisa",
     #"Alexis Benoit",
-    #"Eugene Blin",
+    "Eugene Blin",
     "Noa Caubet",
     "Gabriel Chinarro",
     #"Nathan Corre",
