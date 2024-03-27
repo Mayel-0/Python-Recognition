@@ -3,7 +3,7 @@ import face_recognition
 import cv2
 
 name_file = input("tapez le nom de votre image a traiter !")
-name_file = name_file + ".png"
+name_file = "image_test/" + name_file + ".jpeg"
 
 def get_images(path):
     images = []
