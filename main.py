@@ -3,167 +3,6 @@ import face_recognition
 import cv2
 import numpy as np
 
-
-mael_llado_img = face_recognition.load_image_file("now_people_face/mael.jpeg")
-mael_llado_face_encoding = face_recognition.face_encodings(mael_llado_img)[0]
-#(869, 1380, 2019, 230)
-
-print("Chargement du visage de: Mael LLADO ...")
-
-sawyer_soule_img = face_recognition.load_image_file("now_people_face/sawyer.jpeg")
-sawyer_soule_face_encoding = face_recognition.face_encodings(sawyer_soule_img)[0]
-#(724, 1149, 1682, 191)
-
-print("Chargement du visage de: Sawyer SOULE ...")
-
-sulyvan_rouzeaud_img = face_recognition.load_image_file("now_people_face/sulyvan.jpeg")
-sulyvan_rouzeaud_face_encoding = face_recognition.face_encodings(sulyvan_rouzeaud_img)[0]
-#(583, 1503, 1963, 123)
-
-print("Chargement du visage de: Sulyvan ROUZEAUD ...")
-
-fabio_barbot_img = face_recognition.load_image_file("now_people_face/fabio.jpeg")
-fabio_barbot_face_encoding = face_recognition.face_encodings(fabio_barbot_img)[0]
-
-print("Chargement du visage de: Fabio BARBOT ...")
-
-#alexis_benoit_img = face_recognition.load_image_file("now_people_face/alexis.jpeg")
-#alexis_benoit_face_encoding = face_recognition.face_encodings(alexis_benoit_img)[0]
-
-eugene_blin_img = face_recognition.load_image_file("now_people_face/eugene.jpeg")
-eugene_blin_face_encoding = face_recognition.face_encodings(eugene_blin_img)[0]
-
-print("Chargement du visage de: Eugene BLIN ...")
-
-noa_caubet_img = face_recognition.load_image_file("now_people_face/noa.jpeg")
-noa_caubet_face_encoding = face_recognition.face_encodings(noa_caubet_img)[0]
-
-print("Chargement du visage de: Noa CAUBET ...")
-
-gabriel_chinarro_img = face_recognition.load_image_file("now_people_face/gabriel.jpeg")
-gabriel_chinarro_face_encoding = face_recognition.face_encodings(gabriel_chinarro_img)[0]
-
-print("Chargement du visage de: Gabriel CHINARRO ...")
-
-#nathan_corre_img = face_recognition.load_image_file("now_people_face/nathan-corre.jpeg")
-#nathan_corre_face_encoding = face_recognition.face_encodings(nathan_corre_img)[0]
-
-nolan_delmont_img = face_recognition.load_image_file("now_people_face/nolan.jpeg")
-nolan_delmont_face_encoding = face_recognition.face_encodings(nolan_delmont_img)[0]
-
-print("Chargement du visage de: Nolan DELMONT ...")
-
-fatih_emiral_img = face_recognition.load_image_file("now_people_face/fatih.jpeg")
-fatih_emiral_face_encoding = face_recognition.face_encodings(fatih_emiral_img)[0]
-
-print("Chargement du visage de: Fathi EMIRAL ...")
-
-leandro_fargeas_img = face_recognition.load_image_file("now_people_face/leandro.jpeg")
-leandro_fargeas_face_encoding = face_recognition.face_encodings(leandro_fargeas_img)[0]
-
-print("Chargement du visage de: Leandro FARGEAS ...")
-
-#nathan_gaudin_img = face_recognition.load_image_file("now_people_face/nathan gaudin.jpeg")
-#nathan_gaudin_face_encoding = face_recognition.face_encodings(nathan_gaudin_img)[0]
-
-jean_baptiste_giral_img = face_recognition.load_image_file("now_people_face/jb.jpeg")
-jean_baptiste_giral_face_encoding = face_recognition.face_encodings(jean_baptiste_giral_img)[0]
-
-print("Chargement du visage de: Jean-baptiste GIRAL  ...")
-
-alexy_leroy_img = face_recognition.load_image_file("now_people_face/alexy-leroy.jpeg")
-alexy_leroy_face_encoding = face_recognition.face_encodings(alexy_leroy_img)[0]
-
-print("Chargement du visage de: Alexy LEROY ...")
-
-steeven_magloire_img = face_recognition.load_image_file("now_people_face/steeven.jpeg")
-steeven_magloire_face_encoding = face_recognition.face_encodings(steeven_magloire_img)[0]
-
-print("Chargement du visage de: Steeven MAGLOIRE ...")
-
-#quentin_moinard_img = face_recognition.load_image_file("now_people_face/quentin.jpeg")
-#quentin_moinard_face_encoding = face_recognition.face_encodings(quentin_moinard_img)[0]
-
-mathis_perey_img = face_recognition.load_image_file("now_people_face/mathys.jpeg")
-mathis_perey_face_encoding = face_recognition.face_encodings(mathis_perey_img)[0]
-
-print("Chargement du visage de: Mathis PEREY ...")
-
-#youssef_post_img = face_recognition.load_image_file("now_people_face/azdine bachiri.jpeg")
-#youssef_post_face_encoding = face_recognition.face_encodings(youssef_post_img)[0]
-
-fabrice_rouchard_img = face_recognition.load_image_file("now_people_face/fabrice.jpeg")
-fabrice_rouchard_face_encoding = face_recognition.face_encodings(fabrice_rouchard_img)[0]
-
-print("Chargement du visage de: Fabrice ROUCHARD ...")
-
-adam_serra_img = face_recognition.load_image_file("now_people_face/adam.jpeg")
-adam_serra_face_encoding = face_recognition.face_encodings(adam_serra_img)[0]
-
-print("Chargement du visage de: Adam SERRA ...")
-
-sevan_vazquez_img = face_recognition.load_image_file("now_people_face/sevan.jpeg")
-sevan_vazquez_face_encoding = face_recognition.face_encodings(sevan_vazquez_img)[0]
-
-print("Chargement du visage de: Sevan VAZQUEZ ...")
-
-azdine_bachiri_img = face_recognition.load_image_file("now_people_face/azdine bachiri.jpeg")
-azdine_bachiri_face_encoding = face_recognition.face_encodings(azdine_bachiri_img)[0]
-#(997, 1508, 2147, 357)
-
-print("Chargement du visage de: Azdine BACHIRI ...")
-
-mathis_dumas_img = face_recognition.load_image_file("now_people_face/mathis dumas.jpeg")
-mathis_dumas_face_encoding = face_recognition.face_encodings(mathis_dumas_img)[0]
-#(613, 1380, 1764, 230)
-
-print("Chargement du visage de: Mathis DUMAS ...")
-print("Chargement des visage Terminer !")
-
-known_face_encodings = [
-    azdine_bachiri_face_encoding,
-    fabio_barbot_face_encoding,
-    eugene_blin_face_encoding,
-    noa_caubet_face_encoding,
-    gabriel_chinarro_face_encoding,
-    nolan_delmont_face_encoding,
-    mathis_dumas_face_encoding,
-    fatih_emiral_face_encoding,
-    leandro_fargeas_face_encoding,
-    jean_baptiste_giral_face_encoding,
-    alexy_leroy_face_encoding,
-    mael_llado_face_encoding,
-    steeven_magloire_face_encoding,
-    mathis_perey_face_encoding,
-    fabrice_rouchard_face_encoding,
-    sulyvan_rouzeaud_face_encoding,
-    adam_serra_face_encoding,
-    sawyer_soule_face_encoding,
-    sevan_vazquez_face_encoding
-]
-
-known_face_names = [
-    "Azdine Bachiri",
-    "Fabio Barbot-krisa",
-    "Eugene Blin",
-    "Noa Caubet",
-    "Gabriel Chinarro",
-    "Nolan Delmont",
-    "Mathis Dumas",
-    "Fatih Emiral",
-    "Leandro Fargeas",
-    "Jean-Baptiste Giral",
-    "Alexy Leroy",
-    "Mael Llado",
-    "Steeven Magloire",
-    "Mathis Perey",
-    "Fabrice Rouchard",
-    "Sulyvan Rouzeaud",
-    "Adam Serra",
-    "Sawyer Soule",
-    "Sevan Vazquez"
-]
-
 face_locations = []
 face_encodings = []
 face_names = []
@@ -200,6 +39,18 @@ def draw_rectangle(image, output, coordinates):
     cv2.putText(image, name_file_img, (x + 6, y - 6), font, 3.5, (255, 255, 255), 3)
     cv2.imwrite(os.path.join(os.getcwd(), "output", output) ,image)
 
+known_people = get_images(os.path.join(os.getcwd(),"now_people_face"))
+known_face_encodings = []
+known_face_names = []
+
+for people in known_people:
+    image = face_recognition.load_image_file(people)
+    face_encoding = face_recognition.face_encodings(image)[0]
+    known_face_encodings.append(face_encoding)
+    known_face_names.append(str(os.path.basename(people)).replace(".jpeg", ""))
+    print(f"chargement du visage de:{people}")
+
+
 results = face_recognition.compare_faces(known_face_encodings, unknown_face_encoding, tolerance=0.55)
 
 print("traitement en cours...")
@@ -217,5 +68,3 @@ for i, result in enumerate(results):
         print("Personne reconnue :", known_face_names[i])
 
 print("traitement termine !")
-
-
