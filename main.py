@@ -3,37 +3,9 @@ import face_recognition
 import cv2
 import numpy as np
 
-face_locations = []
-face_encodings = []
-face_names = []
-
-name_file = input("tapez le nom de votre image a traiter !")
-name_file_test = name_file + "Vtest" + ".jpeg"
-name_file_img = name_file
-name_file = os.path.join(os.getcwd(), "image_test", f"{name_file}.jpeg")
-
-unknown_image = face_recognition.load_image_file(name_file)
-unknown_face_encoding = face_recognition.face_encodings(unknown_image)[0]
-
 #Live webcam recognition
-def webcam_recognition():
+def webcam_recognition(known_face_encodings, known_face_names):
     video_capture = cv2.VideoCapture(0)
-
-    mael_llado_image = face_recognition.load_image_file("now_people_face/mael.jpeg")
-    mael_llado_face_encoding = face_recognition.face_encodings(mael_llado_image)[0]
-
-    sulyvan_rouzeau_image = face_recognition.load_image_file("now_people_face/sulyvan.jpeg")
-    sulyvan_rouzeau_face_encoding = face_recognition.face_encodings(sulyvan_rouzeau_image)[0]
-
-    known_face_encodings = [
-        mael_llado_face_encoding,
-        sulyvan_rouzeau_face_encoding
-    ]
-
-    known_face_names = [
-        "Mael llado",
-        "sulyvan rouzeau"
-    ]
 
     while True:
         ret, frame = video_capture.read()
@@ -81,7 +53,7 @@ def get_face(image):
     return face_locations[0]
 
 
-def draw_rectangle(image, output, coordinates):
+def draw_rectangle(image, output, coordinates, name_file_img):
     image =  cv2.imread(image)
     x, y, w, h = coordinates
     cv2.rectangle(image, (x, y), (w, h), (0, 0, 255), 10)
@@ -90,34 +62,57 @@ def draw_rectangle(image, output, coordinates):
     cv2.putText(image, name_file_img, (x + 6, y - 6), font, 3.5, (255, 255, 255), 3)
     cv2.imwrite(os.path.join(os.getcwd(), "output", output) ,image)
 
-webcam_recognition()
 
-known_people = get_images(os.path.join(os.getcwd(),"now_people_face"))
-known_face_encodings = []
-known_face_names = []
+def face_encoding():
+    known_people = get_images(os.path.join(os.getcwd(),"now_people_face"))
 
-for people in known_people:
-    image = face_recognition.load_image_file(people)
-    face_encoding = face_recognition.face_encodings(image)[0]
-    known_face_encodings.append(face_encoding)
-    known_face_names.append(str(os.path.basename(people)).replace(".jpeg", ""))
-    print(f"chargement du visage de:{people}")
+    known_face_encodings = []
+    known_face_names = []
+
+    for people in known_people:
+        image = face_recognition.load_image_file(people)
+        face_encoding = face_recognition.face_encodings(image)[0]
+        known_face_encodings.append(face_encoding)
+        known_face_names.append(str(os.path.basename(people)).replace(".jpeg", ""))
+        print(f"chargement du visage de:{people}")
+
+    return known_face_encodings, known_face_names
+
+def start_image(known_face_encodings, known_face_names):
+    face_locations = []
+    face_encodings = []
+    face_names = []
+
+    name_file = input("tapez le nom de votre image a traiter !")
+    name_file_test = name_file + "Vtest" + ".jpeg"
+    name_file_img = name_file
+    name_file = os.path.join(os.getcwd(), "image_test", f"{name_file}.jpeg")
+
+    unknown_image = face_recognition.load_image_file(name_file)
+    unknown_face_encoding = face_recognition.face_encodings(unknown_image)[0]
+
+    results = face_recognition.compare_faces(known_face_encodings, unknown_face_encoding, tolerance=0.55)
+
+    print("traitement en cours...")
+
+    print((name_file))
+
+    print(get_face(name_file))
+
+    draw_rectangle(name_file, name_file_test, get_face(name_file), name_file_img)
+
+    print(results)
+
+    for i, result in enumerate(results):
+        if result:
+            print("Personne reconnue :", known_face_names[i])
+
+    print("traitement termine !")
 
 
-results = face_recognition.compare_faces(known_face_encodings, unknown_face_encoding, tolerance=0.55)
+known_face_encodings, known_face_names = face_encoding()
 
-print("traitement en cours...")
+start_image(known_face_encodings, known_face_names)
 
-print((name_file))
+webcam_recognition(known_face_encodings, known_face_names)
 
-print(get_face(name_file))
-
-draw_rectangle(name_file, name_file_test, get_face(name_file))
-
-print(results)
-
-for i, result in enumerate(results):
-    if result:
-        print("Personne reconnue :", known_face_names[i])
-
-print("traitement termine !")
