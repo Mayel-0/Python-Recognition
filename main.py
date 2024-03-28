@@ -1,4 +1,5 @@
 import os 
+import concurrent.futures
 import face_recognition
 import cv2
 import numpy as np
@@ -58,27 +59,39 @@ def draw_rectangle(image, output, coordinates, name_file_img):
     image =  cv2.imread(image)
     x, y, w, h = coordinates
     cv2.rectangle(image, (x, y), (w, h), (0, 0, 255), 10)
-    cv2.rectangle(image, (x, y - 100), (w, y), (0, 0, 255), cv2.FILLED)
-    font = cv2.FONT_HERSHEY_DUPLEX
-    cv2.putText(image, name_file_img, (x + 6, y - 6), font, 3.5, (255, 255, 255), 3)
+    #cv2.rectangle(image, (x, y - 100), (w, y), (0, 0, 255), cv2.FILLED)
+    #font = cv2.FONT_HERSHEY_DUPLEX
+    #cv2.putText(image, name_file_img, (x + 6, y - 6), font, 3.5, (255, 255, 255), 3)
     cv2.imwrite(os.path.join(os.getcwd(), "output", output) ,image)
+
+def encode_face(image_path):
+    try:
+        image = face_recognition.load_image_file(image_path)
+        face_encoding = face_recognition.face_encodings(image)[0]
+        face_name = os.path.basename(image_path).replace(".jpeg", "")
+        return (face_encoding, face_name)
+    except IndexError:
+        print(f"No face found in: {image_path}")
+        return None
+    
 
 
 def face_encoding():
     known_people = get_images(os.path.join(os.getcwd(), "now_people_face"))
-
+    
     known_face_encodings = []
     known_face_names = []
 
-    for people in tqdm(known_people, desc="Loading faces"):
-        try:
-            image = face_recognition.load_image_file(people)
-            face_encoding = face_recognition.face_encodings(image)[0]
-            known_face_encodings.append(face_encoding)
-            known_face_names.append(os.path.basename(people).replace(".jpeg", ""))
-        except IndexError:
-            print(f"No face found in: {people}")
+    core = max(1, os.cpu_count() // 2)
 
+    with concurrent.futures.ProcessPoolExecutor(max_workers = core) as executor:
+        results = list(tqdm(executor.map(encode_face, known_people), total=len(known_people), desc="Loading faces"))
+    
+    for result in results:
+        if result:
+            known_face_encodings.append(result[0])
+            known_face_names.append(result[1])
+    
     return known_face_encodings, known_face_names
 
 def start_image(known_face_encodings, known_face_names):
