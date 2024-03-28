@@ -2,6 +2,7 @@ import os
 import face_recognition
 import cv2
 import numpy as np
+from tqdm import tqdm
 
 #Live webcam recognition
 def webcam_recognition(known_face_encodings, known_face_names):
@@ -64,17 +65,19 @@ def draw_rectangle(image, output, coordinates, name_file_img):
 
 
 def face_encoding():
-    known_people = get_images(os.path.join(os.getcwd(),"now_people_face"))
+    known_people = get_images(os.path.join(os.getcwd(), "now_people_face"))
 
     known_face_encodings = []
     known_face_names = []
 
-    for people in known_people:
-        image = face_recognition.load_image_file(people)
-        face_encoding = face_recognition.face_encodings(image)[0]
-        known_face_encodings.append(face_encoding)
-        known_face_names.append(str(os.path.basename(people)).replace(".jpeg", ""))
-        print(f"chargement du visage de:{people}")
+    for people in tqdm(known_people, desc="Loading faces"):
+        try:
+            image = face_recognition.load_image_file(people)
+            face_encoding = face_recognition.face_encodings(image)[0]
+            known_face_encodings.append(face_encoding)
+            known_face_names.append(os.path.basename(people).replace(".jpeg", ""))
+        except IndexError:
+            print(f"No face found in: {people}")
 
     return known_face_encodings, known_face_names
 
@@ -109,10 +112,13 @@ def start_image(known_face_encodings, known_face_names):
 
     print("traitement termine !")
 
+def main():
+    known_face_encodings, known_face_names = face_encoding()
+    state = input("webcam ou image ?")
+    if state == "webcam":
+        webcam_recognition(known_face_encodings, known_face_names)
+    if state == "image":
+        start_image(known_face_encodings, known_face_names)
 
-known_face_encodings, known_face_names = face_encoding()
-
-start_image(known_face_encodings, known_face_names)
-
-webcam_recognition(known_face_encodings, known_face_names)
-
+if __name__ == '__main__':
+    main()
