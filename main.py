@@ -4,6 +4,7 @@ import face_recognition
 import cv2
 import numpy as np
 from tqdm import tqdm
+import uuid
 
 #Live webcam recognition
 def webcam_recognition(known_face_encodings, known_face_names):
@@ -77,7 +78,7 @@ def encode_face(image_path):
 
 
 def face_encoding():
-    known_people = get_images(os.path.join(os.getcwd(), "now_people_face"))
+    known_people = get_images(os.path.join(os.getcwd(), "known_people_face"))
     
     known_face_encodings = []
     known_face_names = []
@@ -100,8 +101,7 @@ def start_image(known_face_encodings, known_face_names):
     face_names = []
 
     name_file = input("tapez le nom de votre image a traiter !")
-    name_file_test = name_file + "Vtest" + ".jpeg"
-    name_file_img = name_file
+    name_file_test = f"{name_file}Vtest-{uuid.uuid4()}.jpeg"
     name_file = os.path.join(os.getcwd(), "image_test", f"{name_file}.jpeg")
 
     unknown_image = face_recognition.load_image_file(name_file)
@@ -115,7 +115,7 @@ def start_image(known_face_encodings, known_face_names):
 
     print(get_face(name_file))
 
-    draw_rectangle(name_file, name_file_test, get_face(name_file), name_file_img)
+    draw_rectangle(name_file, name_file_test, get_face(name_file), name_file)
 
     print(results)
 
