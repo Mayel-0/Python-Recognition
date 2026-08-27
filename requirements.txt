@@ -1,5 +1,4 @@
-dlib
-face_recognition
+face-recognition
 opencv-python
-tqdm
 numpy
+tqdm
