@@ -46,16 +46,30 @@ def draw_plates(frame, plate_results):
         )
     return frame
 
-def run_stream(source, known_face_encodings, known_face_names):
+def run_stream(
+    source,
+    known_face_encodings=None,
+    known_face_names=None,
+    mode="both",
+):
     capture = open_stream(source)
     frame_count = 0
     face_locations = []
     face_names = []
     label = "RTSP Camera" if isinstance(source, str) else "Webcam"
+    window_title = {
+        "faces": "Reconnaissance faciale",
+        "plates": "Reconnaissance de plaques",
+        "both": "Reconnaissance faciale et plaques",
+    }[mode]
     print(f"Flux ouvert : {label} — appuie sur 'q' pour quitter")
 
-    detector = PlateDetector()
-    whitelist = load_whitelist(settings.known_plates_dir / "whitelist.txt")
+    detector = PlateDetector() if mode in ("plates", "both") else None
+    whitelist = (
+        load_whitelist(settings.known_plates_dir / "whitelist.txt")
+        if mode in ("plates", "both")
+        else set()
+    )
     plate_results = []
 
     try:
@@ -68,31 +82,41 @@ def run_stream(source, known_face_encodings, known_face_names):
                 continue
 
             if frame_count % settings.process_every_n_frames == 0:
-                face_results = recognize_frame(
-                    frame, known_face_encodings, known_face_names
-                )
-                plate_results = [
-                    replace(
-                        result,
-                        reconnue=is_plate_allowed(result.text, whitelist),
+                if mode in ("faces", "both"):
+                    face_results = recognize_frame(
+                        frame, known_face_encodings, known_face_names
                     )
-                    for result in detector.detect(frame)
-                ]
+                    face_locations = [result.location for result in face_results]
+                    face_names = [result.name for result in face_results]
 
-                face_locations = [result.location for result in face_results]
-                face_names = [result.name for result in face_results]
+                if mode in ("plates", "both"):
+                    plate_results = [
+                        replace(
+                            result,
+                            reconnue=is_plate_allowed(result.text, whitelist),
+                        )
+                        for result in detector.detect(frame)
+                    ]
 
-            draw_faces(frame, face_locations, face_names)
-            draw_plates(frame, plate_results)
+            if mode in ("faces", "both"):
+                draw_faces(frame, face_locations, face_names)
+            if mode in ("plates", "both"):
+                draw_plates(frame, plate_results)
             cv2.putText(
                 frame, label, (10, 25), cv2.FONT_HERSHEY_SIMPLEX, 0.7,
                 (255, 255, 0), 2,
             )
-            cv2.putText(
-                frame, f"Visages : {len(face_locations)}", (10, 55),
-                cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 255, 0), 2,
-            )
-            cv2.imshow("Reconnaissance faciale", frame)
+            if mode in ("faces", "both"):
+                cv2.putText(
+                    frame,
+                    f"Visages : {len(face_locations)}",
+                    (10, 55),
+                    cv2.FONT_HERSHEY_SIMPLEX,
+                    0.7,
+                    (255, 255, 0),
+                    2,
+                )
+            cv2.imshow(window_title, frame)
             frame_count += 1
 
             if cv2.waitKey(1) & 0xFF == ord("q"):
@@ -100,6 +124,14 @@ def run_stream(source, known_face_encodings, known_face_names):
     finally:
         capture.release()
         cv2.destroyAllWindows()
+
+
+def run_face_stream(source, known_face_encodings, known_face_names):
+    run_stream(source, known_face_encodings, known_face_names, mode="faces")
+
+
+def run_plate_stream(source):
+    run_stream(source, mode="plates")
 
 
 def run_rtsp_thread(known_face_encodings, known_face_names):
