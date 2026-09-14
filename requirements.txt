@@ -2,3 +2,9 @@ face-recognition
 opencv-python
 numpy
 tqdm
+ultralytics
+easyocr
+paho-mqtt
+requests
+face-recognition-models @ git+https://github.com/ageitgey/face_recognition_models
+

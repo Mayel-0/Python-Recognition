@@ -11,6 +11,7 @@ class Settings:
     tolerance: float = 0.55
     frame_scale: float = 0.25
     process_every_n_frames: int = 1
+    known_plates_dir: Path = Path("known_plates")
 
 
 settings = Settings()

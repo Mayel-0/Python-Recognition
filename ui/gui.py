@@ -1,4 +1,5 @@
 import uuid
+from dataclasses import replace
 from pathlib import Path
 
 import cv2
@@ -7,6 +8,9 @@ import face_recognition
 from config.settings import settings
 from core.camera import open_stream, RTSPStreamThread
 from core.recognizer import recognize_frame, recognize_image
+
+from core.plate_detector import PlateDetector
+from core.plate_checker import load_whitelist, is_plate_allowed
 
 
 def draw_faces(frame, face_locations, face_names, text_color=(255, 0, 0)):
@@ -25,6 +29,22 @@ def draw_faces(frame, face_locations, face_names, text_color=(255, 0, 0)):
         )
     return frame
 
+def draw_plates(frame, plate_results):
+    for result in plate_results:
+        x1, y1, x2, y2 = result.location
+        color = (0, 255, 0) if result.reconnue else (0, 0, 255)
+        cv2.rectangle(frame, (x1, y1), (x2, y2), color, 2)
+        cv2.rectangle(frame, (x1, y2 - 35), (x2, y2), color, cv2.FILLED)
+        cv2.putText(
+            frame,
+            result.text,
+            (x1 + 6, y2 - 6),
+            cv2.FONT_HERSHEY_DUPLEX,
+            0.8,
+            (255, 0, 0),
+            1,
+        )
+    return frame
 
 def run_stream(source, known_face_encodings, known_face_names):
     capture = open_stream(source)
@@ -33,6 +53,10 @@ def run_stream(source, known_face_encodings, known_face_names):
     face_names = []
     label = "RTSP Camera" if isinstance(source, str) else "Webcam"
     print(f"Flux ouvert : {label} — appuie sur 'q' pour quitter")
+
+    detector = PlateDetector()
+    whitelist = load_whitelist(settings.known_plates_dir / "whitelist.txt")
+    plate_results = []
 
     try:
         while True:
@@ -47,10 +71,19 @@ def run_stream(source, known_face_encodings, known_face_names):
                 face_results = recognize_frame(
                     frame, known_face_encodings, known_face_names
                 )
+                plate_results = [
+                    replace(
+                        result,
+                        reconnue=is_plate_allowed(result.text, whitelist),
+                    )
+                    for result in detector.detect(frame)
+                ]
+
                 face_locations = [result.location for result in face_results]
                 face_names = [result.name for result in face_results]
 
             draw_faces(frame, face_locations, face_names)
+            draw_plates(frame, plate_results)
             cv2.putText(
                 frame, label, (10, 25), cv2.FONT_HERSHEY_SIMPLEX, 0.7,
                 (255, 255, 0), 2,

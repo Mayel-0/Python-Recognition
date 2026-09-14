@@ -1,4 +1,3 @@
-import concurrent.futures
 import os
 from pathlib import Path
 
@@ -38,18 +37,11 @@ def encode_face(image_path: str) -> tuple | None:
 
 def load_known_faces(path: Path) -> tuple[list, list]:
     known_people = get_images(path)
-    core_count = max(1, (os.cpu_count() or 1) // 2)
-
-    with concurrent.futures.ProcessPoolExecutor(max_workers=core_count) as executor:
-        results = list(tqdm(
-            executor.map(encode_face, known_people),
-            total=len(known_people),
-            desc="Chargement des visages",
-        ))
 
     encodings = []
     names = []
-    for result in results:
+    for image_path in tqdm(known_people, desc="Chargement des visages"):
+        result = encode_face(image_path)
         if result:
             encodings.append(result[0])
             names.append(result[1])
